@@ -1,0 +1,13 @@
+Sustantivos:	
+	vistas
+	diapositiva
+	documento
+Vervos:
+	añadir/quitar concepto
+	editar/quitar contenido
+	editar (objeto) texto
+	editar (objeto) posicion
+	guardar documento
+	copiar objeto
+	cargar documento
+	cambiar vista

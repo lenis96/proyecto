@@ -1,0 +1,15 @@
+Clases:
+	Concepto:
+		Encargada de gurdar informacion del concepto
+	Diapositiva:
+		Encargada de manejar los contenidos de la diapositiva por concepto
+	Archivo:
+		Encargado de poder abstraer la informacion del documento para poder guradarlo. Y de interprtar luego el archivo para poderlo abrir.
+	Conexion:
+		Encargada de manejar las conexionexiones entre los conceptos 
+	Lienzo:
+		Encargade de mostrar el mapa conceptual
+	Modos:
+		Encargada de gestionar los diferentes modos de la aplicación
+	Interfaz:
+		Encargada de la interfaz grafica, medio entre el usuario y el mapa conceptual
