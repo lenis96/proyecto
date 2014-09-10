@@ -13,3 +13,4 @@ Clases:
 		Encargada de gestionar los diferentes modos de la aplicación
 	Interfaz:
 		Encargada de la interfaz grafica, medio entre el usuario y el mapa conceptual
+no hice ningun cambio
