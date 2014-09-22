@@ -1,16 +1,17 @@
 Clases:
 	Concepto:
-		Encargada de gurdar informacion del concepto
+		Encargada de gurdar informacion del concepto.
 	Diapositiva:
-		Encargada de manejar los contenidos de la diapositiva por concepto
+		Encargada de manejar los contenidos de la diapositiva por concepto.
 	Archivo:
 		Encargado de poder abstraer la informacion del documento para poder guradarlo. Y de interprtar luego el archivo para poderlo abrir.
 	Conexion:
-		Encargada de manejar las conexionexiones entre los conceptos 
+		Encargada de manejar las conexionexiones entre los conceptos.
 	Lienzo:
-		Encargade de mostrar el mapa conceptual
-	Modos:
-		Encargada de gestionar los diferentes modos de la aplicación
+		Encargade de mostrar el mapa conceptual y las diapostivas(se encarga de la parte grafica del programa, de mostrarle al usuario como va el documento).
 	Interfaz:
-		Encargada de la interfaz grafica, medio entre el usuario y el mapa conceptual
-no hice ningun cambio
+		Encargada de la interfaz grafica, medio entre el usuario y el mapa conceptual.
+	Mapa Conceptual:
+		Encargada de contener los conceptos y las conexiones que existen entre los conceptos.
+
+Por este momento no encuentro la necesidad de utilizar herencia entre estas clases porque cada una  tiene caracterisca diferentes de otras
