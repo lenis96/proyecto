@@ -10,7 +10,9 @@ void mapa::agregarConcepto(concepto concep){
 }
 void mapa::agregarUnion(concepto c1,concepto c2){
     if(!existeUnion(c1,c2)){
-        listaParejas.push_back(pareja(c1,c2));
+        QPair<concepto,concepto> a(c1,c2);
+        listaParejas.append(a);
+        //listaParejas.append(QPair(c1,c2));
     }
 }
 mapa::~mapa(){
@@ -25,11 +27,12 @@ void mapa::imprimirConceptos(){
         iteradorConceptos++;
     }
 }
+/*
 void mapa::agregarUnion(int num1,int num2){
     if(!existeUnion(num1,num2)){
         listaParejas.push_back(pareja(num1,num2));
     }
-}
+}*/
 
 concepto mapa::conceptoPos(int num){
     iteradorConceptos=listaConceptos.begin();
@@ -44,8 +47,21 @@ concepto mapa::conceptoPos(int num){
     }
 }
 bool mapa::existeUnion(concepto c1,concepto c2){
-    return existeUnion(c1.getNumConcepto(),c2.getNumConcepto());
+    QPair <concepto,concepto> a(c1,c2);
+    QPair <concepto,concepto> b(c2,c1);
+    QPair <concepto,concepto> c(c1,c1);
+    for (int i=0;i<listaParejas.size();i++){
+        c=listaParejas.at(i);
+        c.first;
+        if((c.first).getNumConcepto()==(a.first).getNumConcepto()){
+            return true;//teeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeerminar
+        }
+
+    }
+    return false;
+    //return listaParejas.contains(a)||listaParejas.contains(b);//existeUnion(c1.getNumConcepto(),c2.getNumConcepto());
 }
+/*
 bool mapa::existeUnion(int num1,int num2){
     iteradorParejas=listaParejas.begin();
     while(iteradorParejas!=listaParejas.end()){
@@ -55,7 +71,7 @@ bool mapa::existeUnion(int num1,int num2){
         iteradorParejas++;
     }
     return false;
-}
+}*/
 bool mapa::existeConcepto(concepto co){//validate concepto nulo //imprimir Parejas
     return existeConcepto(co.getNumConcepto());
 }

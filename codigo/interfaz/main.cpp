@@ -5,12 +5,12 @@
 int main(int argc, char *argv[])
 {
     QTextCodec *linuxCodec = QTextCodec::codecForName("UTF-8");
-    QTextCodec::setCodecForTr(linuxCodec);
+    //QTextCodec::setCodecForTr(linuxCodec);
     QTextCodec::setCodecForCStrings(linuxCodec);
-    QTextCodec::setCodecForLocale(linuxCodec);
+    //QTextCodec::setCodecForLocale(linuxCodec);
     QApplication a(argc, argv);
     MainWindow w;
+    w.showMaximized();
     w.show();
-
     return a.exec();
 }

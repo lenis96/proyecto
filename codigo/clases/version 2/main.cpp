@@ -1,5 +1,5 @@
 #include "concepto.h"
-#include  "pareja.h"
+#include  <QPair>
 #include "mapa.h"
 int main(){
 	concepto a("nose",1,1);

@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include "nuevoconceptoventana.h"
+#include "editarconceptoventana.h"
 namespace Ui {
 class MainWindow;
 }
@@ -24,9 +25,10 @@ protected slots:
     virtual void nuevoArchivo();
     virtual void iniciarPresentacion();
 
-
 private:
     Ui::MainWindow *ui;
+    nuevoConceptoVentana formNc;
+    editarConceptoVentana formEc;
 };
 
 #endif // MAINWINDOW_H

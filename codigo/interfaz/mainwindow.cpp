@@ -1,10 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QApplication>
 #include <QMessageBox>
+#include <QFileDialog>
 void MainWindow::nuevoConcepto(){
-    QMessageBox msgBox;
-    msgBox.setText("Creo un nuevo Concepto");
-    msgBox.exec();
+    formNc.show();
 }
 void MainWindow::unirConceptos(){
     QMessageBox msgBox;
@@ -12,24 +12,23 @@ void MainWindow::unirConceptos(){
     msgBox.exec();
 }
 void MainWindow::editarConcepto(){
-    QMessageBox msgBox;
-    msgBox.setText("Edito un Concepto");
-    msgBox.exec();
+    formEc.show();
 }
 void MainWindow::guardarArchivo(){
-    QMessageBox msgBox;
-    msgBox.setText("Guardo el Archivo");
-    msgBox.exec();
+    QFileDialog cuadroArchivo;
+    cuadroArchivo.setModal(true);
+    cuadroArchivo.exec();
 }
 void MainWindow::guardarComoArchivo(){
-    QMessageBox msgBox;
-    msgBox.setText("Guardo un nuevo Archivo");
-    msgBox.exec();
+    QFileDialog cuadroArchivo;
+    cuadroArchivo.setModal(true);
+    cuadroArchivo.exec();
 }
 void MainWindow::abrirArchivo(){
-    QMessageBox msgBox;
-    msgBox.setText("Abro un Archivo");
-    msgBox.exec();
+    QFileDialog cuadroArchivo;
+    cuadroArchivo.setModal(true);
+    cuadroArchivo.exec();
+    cuadroArchivo.selectedFilter();
 }
 void MainWindow::nuevoArchivo(){
     QMessageBox msgBox;
@@ -45,6 +44,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    //formNc.setParent(this);
+    //formEc.setParent(this);
     ui->setupUi(this);
     connect(ui->pushButton, SIGNAL(pressed()),this, SLOT(nuevoConcepto()));
     connect(ui->pushButton_2, SIGNAL(pressed()),this, SLOT(unirConceptos()));
@@ -54,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionGuardar_Como, SIGNAL(triggered()),this, SLOT(guardarComoArchivo()));
     connect(ui->actionNuevo_Archivo, SIGNAL(triggered()),this, SLOT(nuevoArchivo()));
     connect(ui->pushButton_4,SIGNAL(pressed()),this,SLOT(iniciarPresentacion()));
+    connect(ui->actionSalir,SIGNAL(triggered()),this,SLOT(close()));
 }
 
 
@@ -61,3 +63,5 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+
