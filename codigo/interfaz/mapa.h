@@ -15,7 +15,7 @@
 class mapa
 {
     QList<concepto> listaConceptos;
-    QList<QPair<concepto,concepto> > listaParejas;
+    QList<QPair<concepto*,concepto*> > listaParejas;
     //QListIterator<concepto> iteradorConceptos;
     //QList<QPair>::iterator iteradorParejas;
     //QListIterator <QPair<concepto,concepto> > iteradorParejas;
@@ -27,21 +27,29 @@ public:
     mapa(QString);
     ~mapa();
     concepto getConceptoNum(int)const;
+    concepto* getPtrNum(int);
+    //concepto* getPointerConcepto(int)const;
+    void setConcepto(int,concepto);
     void agregarConcepto(concepto);
     void eliminarConcepto(concepto);
+    void eliminarConcepto(int);
     bool tieneError() const;
     //void agregarUnion(int,int);
     void agregarUnion(concepto,concepto);
     void agregarUnion(int,int);
     void eliminarUnion(concepto,concepto);
+    void eliminarUnion(int,int);
     void imprimirConceptos()const;
     void imprimirUniones()const;
     bool existeConcepto(concepto) const;
     bool existeConcepto(int) const;
     bool existeUnion(concepto,concepto) const;
+    bool existeUnion(int,int)const;
     void guardar(QString) const;
+    void abrir(QString);
     int getNumConceptos() const;
     //bool existeUnion(int,int);
+
 };
 
 #endif // MAPA_H

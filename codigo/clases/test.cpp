@@ -28,16 +28,21 @@ void testPrograma::testMapa(){
     mapaC.agregarConcepto(concepto("rama4",4,5));
     mapaC.agregarConcepto(concepto("palma5",7,5));
     mapaC.agregarConcepto(concepto("pino6",6,8));
-    mapaC.agregarUnion(mapaC.conceptoPos(3),mapaC.conceptoPos(2));
-    mapaC.agregarUnion(mapaC.conceptoPos(1),mapaC.conceptoPos(2));
+    mapaC.agregarUnion(mapaC.getConceptoNum(3),mapaC.getConceptoNum(2));
+    mapaC.agregarUnion(mapaC.getConceptoNum(1),mapaC.getConceptoNum(2));
+    mapaC.guardar("/home/lenis96/Escritorio/prueba.xml");
     QVERIFY(mapaC.existeConcepto(4));
     QVERIFY(!mapaC.existeConcepto(7));
-    QCOMPARE(mapaC.conceptoPos(3).getTexto(),std::string("flor3"));
+    QCOMPARE(mapaC.getConceptoNum(3).getTexto(),std::string("flor3"));
     QVERIFY(mapaC.existeUnion(3,2));
     QVERIFY(mapaC.existeUnion(2,3));
     QVERIFY(!mapaC.existeUnion(1,3));
-    QVERIFY(mapaC.existeUnion(mapaC.conceptoPos(1),mapaC.conceptoPos(2)));
-    QVERIFY(mapaC.existeUnion(mapaC.conceptoPos(2),mapaC.conceptoPos(1)));
+    QVERIFY(mapaC.existeUnion(mapaC.getConceptoNum(1),mapaC.getConceptoNum(2)));
+    QVERIFY(mapaC.existeUnion(mapaC.getConceptoNum(2),mapaC.getConceptoNum(1)));
+    mapaC.~mapa();
+    mapa mapaD("/home/lenis96/Escritorio/prueba.xml");
+    QVERIFY(!mapaD.tieneError());
+
 
 }
  

@@ -1,28 +1,49 @@
 #ifndef MAPA_H
 #define MAPA_H
-#include "pareja.h"
+#include <QPair>
+#include <QList>
+#include <QListIterator>
 #include "concepto.h"
 #include <list>
+#include <QFile>
+#include <QXmlStreamWriter>
+#include <QXmlStreamReader>
+#include <QDebug>
+#include <QMutableListIterator>
+#include <QMessageBox>
 
 class mapa
 {
-    std::list<concepto> listaConceptos;
-    std::list<pareja> listaParejas;
-    std::list<concepto>::iterator iteradorConceptos;
-    std::list<pareja>::iterator iteradorParejas;
+    QList<concepto> listaConceptos;
+    QList<QPair<concepto,concepto> > listaParejas;
+    //QListIterator<concepto> iteradorConceptos;
+    //QList<QPair>::iterator iteradorParejas;
+    //QListIterator <QPair<concepto,concepto> > iteradorParejas;
     int numConceptos;
+    bool Error;
+    void cargarConcepto(concepto);
 public:
     mapa();
+    mapa(QString);
     ~mapa();
-    concepto conceptoPos(int);
+    concepto getConceptoNum(int)const;
     void agregarConcepto(concepto);
-    void agregarUnion(int,int);
+    void eliminarConcepto(concepto);
+    bool tieneError() const;
+    //void agregarUnion(int,int);
     void agregarUnion(concepto,concepto);
-    void imprimirConceptos();
-    bool existeConcepto(concepto);
-    bool existeConcepto(int);
-    bool existeUnion(concepto,concepto);
-    bool existeUnion(int,int);
+    void agregarUnion(int,int);
+    void eliminarUnion(concepto,concepto);
+    void imprimirConceptos()const;
+    void imprimirUniones()const;
+    bool existeConcepto(concepto) const;
+    bool existeConcepto(int) const;
+    bool existeUnion(concepto,concepto) const;
+    bool existeUnion(int,int)const;
+    void guardar(QString) const;
+    void abrir(QString);
+    int getNumConceptos() const;
+    //bool existeUnion(int,int);
 };
 
 #endif // MAPA_H

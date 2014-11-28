@@ -7,27 +7,28 @@
 # include <string>
 
 class concepto{
-	
+    friend class mapa;
     //static int numConceptos;
 	int numConcepto;
 	std::string textConcepto;
 	int posX;
 	int posY;
-	
+    private:
+        concepto(std::string ,int,int,int);
 	public:
 		concepto(std::string ,int,int);
-        concepto(std::string ,int,int,int);
+        concepto();
 			//11std::cout <<"se creo el nuevo concepto"<<numConcepto<<numConceptos<<std::endl;
 		~concepto();
 		void setTexto(std::string );
-		std::string getTexto();
-		void setPosX(int);
-		int getPosX();
+        std::string getTexto() const;
+        void setPosX(int);
+        int getPosX() const;
 		void setPosY(int);
-		int getPosY();
-        int getNumConcepto();
+        int getPosY()const;
+        int getNumConcepto() const;
         //int getNumConceptos();
-        bool esConceptoNulo();
+        bool esConceptoNulo() const;
 
 };
 void imprimirConcepto(concepto);

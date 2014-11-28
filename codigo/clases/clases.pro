@@ -8,7 +8,7 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += concepto.h pareja.h \
+HEADERS += concepto.h \
     mapa.h
-SOURCES += concepto.cpp main.cpp pareja.cpp \
+SOURCES += concepto.cpp main.cpp  \
     mapa.cpp

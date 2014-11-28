@@ -3,6 +3,6 @@ TEMPLATE = app
 TARGET += 
 DEPENDPATH += .
 INCLUDEPATH += .
-HEADERS += concepto.h mapa.h pareja.h
+HEADERS += concepto.h mapa.h
 SOURCES += concepto.cpp \
-    test.cpp mapa.cpp pareja.cpp
+    test.cpp mapa.cpp

@@ -53,5 +53,8 @@ bool concepto::esConceptoNulo() const{
         return false;
     }
 }
+void concepto::setNumConcepto(int num){
+    numConcepto=num;
+}
 
 

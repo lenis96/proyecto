@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QString>
+#include <QDebug>
 namespace Ui {
 class nuevoConceptoVentana;
 }
@@ -14,7 +15,7 @@ class nuevoConceptoVentana : public QDialog
 public:
     explicit nuevoConceptoVentana(QWidget *parent = 0);
     ~nuevoConceptoVentana();
-    signals:
+signals:
     void emitirInformacionConcepto(QString concepto,int posX,int posY);
 
 

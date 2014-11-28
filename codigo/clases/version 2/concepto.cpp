@@ -29,19 +29,23 @@ concepto::concepto(std::string cadena="",int nuevaPosX=0,int nuevaPosY=0,int num
     }
 //11std::cout <<"se creo el nuevo concepto"<<numConcepto<<numConceptos<<std::endl;
 }
+concepto::concepto(){
+
+}
+
 concepto::~concepto(){
 }
 void concepto::setTexto(std::string nuevoTexto){textConcepto=nuevoTexto;}
-std::string concepto::getTexto(){return textConcepto;}
+std::string concepto::getTexto() const{return textConcepto;}
 void concepto::setPosX(int nuevaPos){posX=nuevaPos;}
-int concepto::getPosX(){return posX;}
+int concepto::getPosX() const{return posX;}
 void concepto::setPosY(int nuevaPos){posY=nuevaPos;}
-int concepto::getPosY(){return posY;}
+int concepto::getPosY() const{return posY;}
 //int concepto::getNumConceptos(){return numConceptos;}
-int concepto::getNumConcepto(){return numConcepto;}
+int concepto::getNumConcepto() const{return numConcepto;}
 void imprimirConcepto(concepto conc){std::cout<<conc.getTexto()<<"\t"<<conc.getPosX()<<"\t"<<conc.getPosY()<<"\t"<<conc.getNumConcepto()<<"\n";}
 //int concepto::numConceptos=0;
-bool concepto::esConceptoNulo(){
+bool concepto::esConceptoNulo() const{
     if(textConcepto=="nulo"){
         return true;
     }

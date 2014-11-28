@@ -82,15 +82,30 @@ void mapa::agregarConcepto(concepto concep){
 }
 bool mapa::tieneError() const{return Error;}
 void mapa::agregarUnion(concepto c1,concepto c2){
-    if(!existeUnion(c1,c2)){
+    if(!existeUnion(c1,c2) && c1.getNumConcepto()!=c2.getNumConcepto()){
         //QPair<concepto,concepto> a(c1,c2);
-        listaParejas.append(QPair <concepto,concepto>(c1,c2));
+        listaParejas.append(QPair <concepto*,concepto*>(&c1,&c2));
         //listaParejas.append(QPair(c1,c2));
+    }
+}
+concepto* mapa::getPtrNum(int num){
+    QMutableListIterator <concepto> i(listaConceptos);
+    i.toFront();
+    //iteradorConceptos=listaConceptos.begin();
+    while(i.hasNext() && i.peekNext().getNumConcepto()!=num){//iteradorConceptos->getNumConcepto()!=num){
+        i.next();
+    }
+
+    if(i.peekNext().getNumConcepto()==num){
+        return &i.peekNext();
+    }
+    else{
+        return NULL;
     }
 }
 void mapa::agregarUnion(int n1,int n2){
         //QPair<concepto,concepto> a(this->conceptoPos(n1),this->conceptoPos(n2));
-    listaParejas.append(QPair<concepto,concepto>(this->getConceptoNum(n1),this->getConceptoNum((n2))));
+    listaParejas.append(QPair<concepto*,concepto*>(this->getPtrNum(n1),this->getPtrNum(n2)));
 }
 int mapa::getNumConceptos() const{return numConceptos;}
 
@@ -107,40 +122,61 @@ void mapa::imprimirConceptos()const{
         i.next();
     }
 }
+
 void mapa::imprimirUniones()const{
-    QListIterator <QPair<concepto,concepto> > i(listaParejas);
+    QListIterator <QPair<concepto*,concepto*> > i(listaParejas);
     i.toFront();
     while(i.hasNext()){
-        std::cout<<i.peekNext().first.getNumConcepto()<<"<--->"<<i.peekNext().second.getNumConcepto()<<"\n";
+        std::cout<<i.peekNext().first->getNumConcepto()<<"<--->"<<i.peekNext().second->getNumConcepto()<<"\n";
         i.next();
     }
 }
+
+
 concepto mapa::getConceptoNum(int num)const{
     QListIterator <concepto> i(listaConceptos);
     i.toFront();
     //iteradorConceptos=listaConceptos.begin();
-    while(i.hasNext() && i.peekNext().getNumConcepto()!=num){//iteradorConceptos->getNumConcepto()!=num){
-        i.next();
-    }
-
-    if(i.peekNext().getNumConcepto()==num){
-        return i.peekNext();
-    }
-    else{
-        return concepto ("nulo",0,0);
-    }
-}
-bool mapa::existeUnion(concepto c1,concepto c2) const{
-    QListIterator <QPair<concepto,concepto> > i(listaParejas);
-    i.toFront();
-    while(i.hasNext()){
-        if((i.peekNext().first.getNumConcepto()==c1.getNumConcepto() && i.peekNext().second.getNumConcepto()==c2.getNumConcepto())||(i.peekNext().first.getNumConcepto()==c2.getNumConcepto() && i.peekNext().second.getNumConcepto()==c1.getNumConcepto())){
-            return true;
+    while(i.hasNext()){//iteradorConceptos->getNumConcepto()!=num){
+        if(i.peekNext().getNumConcepto()==num){
+            return i.peekNext();
         }
         i.next();
     }
-    return false;
-    //return listaParejas.contains(a)||listaParejas.contains(b);//existeUnion(c1.getNumConcepto(),c2.getNumConcepto());
+/*
+    if(i.hasNext() && i.peekNext().getNumConcepto()==num ){
+        return i.peekNext();
+    }*/
+        return concepto ("nulo",0,0);
+}
+void mapa::setConcepto(int num,concepto c){
+    QMutableListIterator <concepto> i(listaConceptos);
+    i.toFront();
+    while(i.hasNext() && i.peekNext().getNumConcepto()!=num){
+        i.next();
+    }
+    if(i.peekNext().getNumConcepto()==num){
+        i.peekNext()=c;
+        i.peekNext().setNumConcepto(num);
+    }
+}
+
+bool mapa::existeUnion(concepto c1,concepto c2) const{
+    if(existeConcepto(c1) && existeConcepto(c2)){
+        QListIterator <QPair<concepto*,concepto*> > i(listaParejas);
+        i.toFront();
+        while(i.hasNext()){
+            if((i.peekNext().first->getNumConcepto()==c1.getNumConcepto() && i.peekNext().second->getNumConcepto()==c2.getNumConcepto())||(i.peekNext().first->getNumConcepto()==c2.getNumConcepto() && i.peekNext().second->getNumConcepto()==c1.getNumConcepto())){
+                return true;
+            }
+            i.next();
+        }
+        return false;
+        //return listaParejas.contains(a)||listaParejas.contains(b);//existeUnion(c1.getNumConcepto(),c2.getNumConcepto());
+    }
+    else{
+        return false;
+    }
 }
 bool mapa::existeUnion(int n1,int n2)const{
     return existeUnion(this->getConceptoNum(n1),this->getConceptoNum(n2));
@@ -178,7 +214,7 @@ void mapa::guardar(QString ubicacionArchivo) const{
     QString texto;
     QXmlStreamWriter escritor(&texto);
     QListIterator <concepto> i(listaConceptos);
-    QListIterator <QPair<concepto,concepto> > j(listaParejas);
+    QListIterator <QPair<concepto*,concepto*> > j(listaParejas);
     escritor.setAutoFormatting(true);
     escritor.writeStartDocument();
     escritor.writeStartElement("mapa");
@@ -199,8 +235,8 @@ void mapa::guardar(QString ubicacionArchivo) const{
     escritor.writeStartElement("parejas");
     while(j.hasNext()){
         escritor.writeStartElement("pareja");
-        escritor.writeTextElement("par1",QString::number(j.peekNext().first.getNumConcepto()));
-        escritor.writeTextElement("par2",QString::number(j.peekNext().second.getNumConcepto()));
+        escritor.writeTextElement("par1",QString::number(j.peekNext().first->getNumConcepto()));
+        escritor.writeTextElement("par2",QString::number(j.peekNext().second->getNumConcepto()));
         escritor.writeEndElement();
         j.next();
     }
@@ -217,10 +253,10 @@ void mapa::guardar(QString ubicacionArchivo) const{
 }
 void mapa::eliminarConcepto(concepto c){
     QMutableListIterator <concepto> i (listaConceptos);
-    QMutableListIterator <QPair <concepto,concepto> > j(listaParejas);
+    QMutableListIterator <QPair <concepto*,concepto*> > j(listaParejas);
     j.toFront();
     while(j.hasNext()){
-        if(j.peekNext().first.getNumConcepto()==c.getNumConcepto() || j.peekNext().second.getNumConcepto()==c.getNumConcepto()){
+        if(j.peekNext().first->getNumConcepto()==c.getNumConcepto() || j.peekNext().second->getNumConcepto()==c.getNumConcepto()){
             j.next();
             j.remove();
         }
@@ -233,21 +269,27 @@ void mapa::eliminarConcepto(concepto c){
         if(i.peekNext().getNumConcepto()==c.getNumConcepto()){
             i.next();
             i.remove();
+            break;
         }
         else{
             i.next();
         }
     }
 }
+void mapa::eliminarConcepto(int num){
+    concepto c(getConceptoNum(num));
+    eliminarConcepto(c);
+}
+
 void mapa::cargarConcepto(concepto c){
     listaConceptos.push_back(c);
 }
 
 void mapa::eliminarUnion(concepto c1, concepto c2){
-    QMutableListIterator <QPair<concepto,concepto> > i(listaParejas);
+    QMutableListIterator <QPair<concepto*,concepto*> > i(listaParejas);
     i.toFront();
     while(i.hasNext()){
-        if((i.peekNext().first.getNumConcepto()==c1.getNumConcepto() && i.peekNext().second.getNumConcepto()==c2.getNumConcepto()) || (i.peekNext().first.getNumConcepto()==c2.getNumConcepto() && i.peekNext().second.getNumConcepto()==c1.getNumConcepto())){
+        if((i.peekNext().first->getNumConcepto()==c1.getNumConcepto() && i.peekNext().second->getNumConcepto()==c2.getNumConcepto()) || (i.peekNext().first->getNumConcepto()==c2.getNumConcepto() && i.peekNext().second->getNumConcepto()==c1.getNumConcepto())){
             i.next();
             i.remove();
         }
@@ -255,4 +297,9 @@ void mapa::eliminarUnion(concepto c1, concepto c2){
             i.next();
         }
     }
+}
+void mapa::eliminarUnion(int n1,int n2){
+    concepto c1(this->getConceptoNum(n1));
+    concepto c2(this->getConceptoNum(n2));
+    this->eliminarUnion(c1,c2);
 }

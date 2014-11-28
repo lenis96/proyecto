@@ -15,6 +15,7 @@ class concepto{
 	int posY;
     private:
         concepto(std::string ,int,int,int);
+        void setNumConcepto(int);
 	public:
 		concepto(std::string ,int,int);
         concepto();

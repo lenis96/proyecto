@@ -10,10 +10,19 @@ INCLUDEPATH += .
 # Input
 HEADERS += mainwindow.h \
     editarconceptoventana.h \
-    nuevoconceptoventana.h
+    nuevoconceptoventana.h\
+    mapa.h\
+    concepto.h \
+    unirconceptosventana.h \
+    elementopresentacion.h
 FORMS += mainwindow.ui  \
     editarconceptoventana.ui \
-    nuevoconceptoventana.ui
+    nuevoconceptoventana.ui \
+    unirconceptosventana.ui
 SOURCES += main.cpp mainwindow.cpp  \
     editarconceptoventana.cpp \
-    nuevoconceptoventana.cpp
+    nuevoconceptoventana.cpp\
+    concepto.cpp\
+    mapa.cpp \
+    unirconceptosventana.cpp \
+    elementopresentacion.cpp
