@@ -13,11 +13,11 @@ void mapa::abrir(QString ubicacionArchivo){
     QFile archivo(ubicacionArchivo);
     if(archivo.open(QIODevice::ReadOnly | QIODevice::Text)){
         QTextStream in(&archivo);
-        QString texto;
-        texto.append(in.readAll());
+        QString text;
+        text.append(in.readAll());
         archivo.flush();
         archivo.close();
-        QXmlStreamReader lector(texto);
+        QXmlStreamReader lector(text);
         while(!lector.atEnd() && !lector.hasError()){
             if(lector.isStartElement()){
                 QString tipo=lector.name().toString();
@@ -27,6 +27,8 @@ void mapa::abrir(QString ubicacionArchivo){
                 else if(tipo=="concepto"){
                     concepto c;
                     bool conceptoTerminado=false;
+                    QString tipo,cadena;
+                    int x,y,id;
                     while(!conceptoTerminado && !lector.hasError()){
                         if(lector.isStartElement()){
                             QString atributo=lector.name().toString();
@@ -41,9 +43,48 @@ void mapa::abrir(QString ubicacionArchivo){
                             }
                             else if(atributo=="numConcepto"){
                                 c.numConcepto=lector.readElementText().toInt();
+
+                            }
+                            else if(atributo=="numElementos"){
+                                c.numElemtos=lector.readElementText().toInt();
+                                if(c.numElemtos==0){
+                                    conceptoTerminado=true;
+                                    this->cargarConcepto(c);
+                                }
+                            }
+                            else if(atributo=="tipo"){
+                                tipo=QString::fromStdString(lector.readElementText().toStdString());
+                            }
+                            else if(atributo=="cadena"){
+                                cadena=QString::fromStdString(lector.readElementText().toStdString());
+                            }
+                            else if(atributo=="x"){
+                                x=lector.readElementText().toInt();
+                            }
+                            else if(atributo=="y"){
+                                y=lector.readElementText().toInt();
+                            }
+                            else if(atributo=="id"){
+                                id=lector.readElementText().toInt();
+                                if(tipo=="texto"){
+                                    c.elementos.append(elementoPresentacion(texto,cadena,x,y,id));
+                                }
+                                else if(tipo=="imagen"){
+                                    c.elementos.append(elementoPresentacion(imagen,cadena,x,y,id));
+                                }
+                            }
+                            else if(atributo=="finConcepto"){
                                 conceptoTerminado=true;
                                 this->cargarConcepto(c);
-                            }
+                            }/*
+                            if(lector.isEndElement()){
+                                qDebug()<<lector.name().toString();
+                                if(lector.name().toString()=="concepto"){
+                                    qDebug()<<"hola";
+
+                                }
+                            }*/
+
                         }
                         lector.readNext();
                     }
@@ -209,11 +250,11 @@ bool mapa::existeConcepto(int num) const{
     }
     return false;
 }
-void mapa::guardar(QString ubicacionArchivo) const{
+void mapa::guardar(QString ubicacionArchivo) {
     QFile archivo(ubicacionArchivo);
-    QString texto;
-    QXmlStreamWriter escritor(&texto);
-    QListIterator <concepto> i(listaConceptos);
+    QString text;
+    QXmlStreamWriter escritor(&text);
+    QMutableListIterator <concepto> i(listaConceptos);
     QListIterator <QPair<concepto*,concepto*> > j(listaParejas);
     escritor.setAutoFormatting(true);
     escritor.writeStartDocument();
@@ -227,6 +268,26 @@ void mapa::guardar(QString ubicacionArchivo) const{
         escritor.writeTextElement("posX",QString::number(i.peekNext().getPosX()));
         escritor.writeTextElement("posY",QString::number(i.peekNext().getPosY()));
         escritor.writeTextElement("numConcepto",QString::number(i.peekNext().getNumConcepto()));
+        escritor.writeTextElement("numElementos",QString::number(i.peekNext().getNumElementos()));
+        for(int j=1;j<=i.peekNext().getNumElementos();j++){
+            if(i.peekNext().existeElemento(j)){
+                elementoPresentacion e=i.peekNext().getElemNum(j);
+                escritor.writeStartElement("elemento");
+                if(e.getTipo()==texto){
+                    escritor.writeTextElement("tipo","texto");
+                }
+                else if(e.getTipo()==imagen){
+                    escritor.writeTextElement("tipo","imagen");
+                }
+                escritor.writeTextElement("cadena",e.getCadena());
+                escritor.writeTextElement("x",QString::number(e.getX()));
+                escritor.writeTextElement("y",QString::number(e.getY()));
+                escritor.writeTextElement("id",QString::number(e.getId()));
+                escritor.writeEndElement();
+            }
+
+        }
+        escritor.writeTextElement("finConcepto","fin concepto");
         escritor.writeEndElement();
         i.next();
     }
@@ -247,7 +308,7 @@ void mapa::guardar(QString ubicacionArchivo) const{
         qDebug()<<"no se pudo abrir el archivo"<<endl;
     }
     QTextStream out(&archivo);
-    out<<texto;
+    out<<text;
     archivo.flush();
     archivo.close();
 }

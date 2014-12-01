@@ -5,6 +5,8 @@
 //# include <QString>
 # include <list>
 # include <string>
+#include <QList>
+#include <elementopresentacion.h>
 
 class concepto{
     friend class mapa;
@@ -13,6 +15,8 @@ class concepto{
 	std::string textConcepto;
 	int posX;
 	int posY;
+    QList <elementoPresentacion> elementos;
+    int numElemtos;
     private:
         concepto(std::string ,int,int,int);
         void setNumConcepto(int);
@@ -30,6 +34,13 @@ class concepto{
         int getNumConcepto() const;
         //int getNumConceptos();
         bool esConceptoNulo() const;
+        void crearElementoTexto(QString,int,int);
+        void crearElementoImagen(QString,int,int);
+        elementoPresentacion getElemNum(int);
+        elementoPresentacion* getPtrElem(int);
+        int getNumElementos()const;
+        bool existeElemento(int);
+        void eliminarElemento(int);
 
 };
 void imprimirConcepto(concepto);

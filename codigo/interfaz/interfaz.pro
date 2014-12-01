@@ -14,15 +14,30 @@ HEADERS += mainwindow.h \
     mapa.h\
     concepto.h \
     unirconceptosventana.h \
-    elementopresentacion.h
+    elementopresentacion.h \
+    presentacionvista.h \
+    nuevotexto.h \
+    nuevaimagenventana.h \
+    editarelementovista.h \
+    cuadroarchivo.h
 FORMS += mainwindow.ui  \
     editarconceptoventana.ui \
     nuevoconceptoventana.ui \
-    unirconceptosventana.ui
+    unirconceptosventana.ui \
+    presentacionvista.ui \
+    nuevotexto.ui \
+    nuevaimagenventana.ui \
+    editarelementovista.ui \
+    cuadroarchivo.ui
 SOURCES += main.cpp mainwindow.cpp  \
     editarconceptoventana.cpp \
     nuevoconceptoventana.cpp\
     concepto.cpp\
     mapa.cpp \
     unirconceptosventana.cpp \
-    elementopresentacion.cpp
+    elementopresentacion.cpp \
+    presentacionvista.cpp \
+    nuevotexto.cpp \
+    nuevaimagenventana.cpp \
+    editarelementovista.cpp \
+    cuadroarchivo.cpp

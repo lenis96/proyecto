@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QMutableListIterator>
 #include <QMessageBox>
+#include <elementopresentacion.h>
 
 class mapa
 {
@@ -45,7 +46,7 @@ public:
     bool existeConcepto(int) const;
     bool existeUnion(concepto,concepto) const;
     bool existeUnion(int,int)const;
-    void guardar(QString) const;
+    void guardar(QString);
     void abrir(QString);
     int getNumConceptos() const;
     //bool existeUnion(int,int);
